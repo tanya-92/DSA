@@ -1,1 +1,5 @@
-# DSA
+- Java Collections
+- Counting frequencies of array elements
+- Find the highest/lowest frequency element
+- Recursive Bubble Sort
+- Recursive Insertion Sort

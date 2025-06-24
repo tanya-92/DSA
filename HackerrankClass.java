@@ -1,6 +1,6 @@
 import java.util.*;
 
-class Solving{
+class Hackerrank{
     public static List<Integer> compareTriplets(List<Integer> a, List<Integer> b) {
         int a_count=0;int b_count=0;
         for(int i=0;i<3;i++){
@@ -32,7 +32,7 @@ class Solving{
     }
 }
 
-public class ListClass {
+public class HackerrankClass {
     public static void main(String[] args) {
     // List<Integer> ls = new ArrayList<>();
     // ls.add(10); 

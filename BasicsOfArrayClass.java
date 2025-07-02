@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.*;
 
 class BasicsOfArray{
     public void sortArray(int arr[], int n){
@@ -20,145 +21,157 @@ class BasicsOfArray{
         }
     }
 
-    public void largestElement(int arr[],int n){
+    public int largestElement(int arr[],int n){
         int largest = arr[0];
         for(int i=0;i<n;i++){
             if(arr[i]>largest){
                 largest=arr[i];
             }
         }
-        System.out.println(largest);
+        return largest;
     }
 
-    public void SecondLargestElement(int arr[],int n){
-        int largest = arr[0];
-        int secLargest = -1;
-        for(int i=0;i<n;i++){
-            if(arr[i]>largest){
-                secLargest=largest;
-                largest=arr[i];
-            }
-            else if(arr[i]<largest && arr[i]>secLargest){
-                secLargest=arr[i];
+    public void secondLargestBrute(int[] arr, int n){
+        Arrays.sort(arr);
+        int secondLargest;
+        int largest = arr[n-1];
+        for(int i=n-2; i>=0; i--){
+            if(arr[i]!=largest){
+                secondLargest = arr[i];
+                break;
             }
         }
-        System.out.println(secLargest);
     }
 
-    public void SecondSmallestElement(int arr[],int n){
+    public void secondLargestBetter(int[] arr, int n){
+        int largest = largestElement(arr,n);
+        int secondLargest = -1;
+        for(int i=0; i<n; i++){
+            if(arr[i]!=largest && arr[i]>secondLargest){
+                secondLargest = arr[i];
+            }
+        }
+        System.out.println(secondLargest);
+    }
+
+    public void secondLargestOptimal(int[] arr, int n){
+        int largest = arr[0];
+        int secondLargest = -1;
+        for(int i = 0; i<n; i++){
+            if(arr[i]>largest){
+                secondLargest = largest;
+                largest = arr[i];
+            }
+            else if(arr[i]<largest && arr[i]>secondLargest){
+                secondLargest = arr[i];
+            }
+        }
+        System.out.println(secondLargest);
+    }
+
+    public void secondSmallest(int[] arr,int n){
         int smallest = arr[0];
         int secondSmallest = Integer.MAX_VALUE;
-        for(int i=0;i<n;i++){
+        for(int i = 0; i<n; i++){
             if(arr[i]<smallest){
-                secondSmallest=smallest;
-                smallest=arr[i];
+                secondSmallest = smallest;
+                smallest = arr[i];
             }
             else if(arr[i]>smallest && arr[i]<secondSmallest){
-                secondSmallest=arr[i];
+                secondSmallest = arr[i];
             }
         }
         System.out.println(secondSmallest);
     }
 
-    public boolean isSorted(int arr[]){
-        for(int i=1;i<arr.length;i++){
-            if(arr[i]<arr[i-1]) {
-                return false;
-            }
+    public boolean isSorted(int[] arr, int n){
+        for(int i=1; i<n; i++){
+            if(arr[i]>arr[i-1]){}
+            else return false;
         }
         return true;
     }
 
-    public void removeDuplicates(int arr[],int n){
-        int i=0;
-        for(int j=1;j<n;j++){
+    public void removeDuplicatesBrute(int[] arr, int n){
+        Set<Integer> set = new HashSet<>();
+        for(int i=0; i<n; i++){
+            set.add(arr[i]);                   //to insert-> nlogn   and to  iterate->n  => O(n+nlogn)      SC->O(n)
+        }
+    }
+
+    public void removeDuplicatesOptimal(int[] arr, int n){
+        int i = 0;
+        for(int j = 1;j<n;j++){
             if(arr[j]!=arr[i]){
                 arr[i+1]=arr[j];
                 i++;
             }
         }
-        System.out.println(i+1);
     }
 
-    public void leftRotateByOne(int arr[],int n){
-        int temp=arr[0];
-        for(int i=0;i<n-1;i++){
-            arr[i]=arr[i+1];
+    public void leftRotateByOnePlace(int[] arr, int n){
+        int temp = arr[0];
+        for(int i=1; i<n; i++){
+            arr[i-1]=arr[i];
         }
         arr[n-1]=temp;
-        display(arr, n);
     }
 
-    public void leftRotateByD(int arr[], int n, int d){   
-        d=d%n;
-        reverseArray(arr, 0, d-1);
-        reverseArray(arr, d, n-1);
-        reverseArray(arr, 0, n-1);
-        display(arr, n);
-        System.out.println();
-    }
-
-    public void rightRotateByD(int arr[], int n, int d){   
-        d=d%n;
-        reverseArray(arr, 0, d);
-        reverseArray(arr, d+1, n-1);
-        reverseArray(arr, 0, n-1);
-        display(arr, n);
-
-        // reverseArray(arr, n - d, n - 1);  // reverse last d elements
-        // reverseArray(arr, 0, n - d - 1);  // reverse first n - d elements
-        // reverseArray(arr, 0, n - 1);
-    }
-
-    public void ZerosToEnd(int arr[], int n){
-        int j=-1;
-        for(int i=0;i<n;i++){
-            if(arr[i]==0){
-                j=i; break;
-            }
+    public void leftRotateBrute(int[] arr, int n, int d){
+        d = d%n;
+        int[] temp = new int[d];
+        for(int i=0; i<d; i++){
+            temp[i] = arr[i];
         }
-        for(int i=j+1;i<n;i++){
-            if(arr[i]!=0){
-                int temp=arr[i];
-                arr[i]=arr[j];
-                arr[j]=temp;
-                j++;
-            }
+        for(int i=d; i<n; i++){
+            arr[i-d]=arr[i];
         }
-        display(arr, n);
-    }
-
-    public void linearSearch(int[] arr, int key, int n){
-        for(int i=0;i<n;i++){
-            if(arr[i] == key) {         //first occurence
-                System.out.println(i);
-                break;
-            }  
-        }
-        for(int i=n-1;i>=0;i--){
-            if(arr[i] == key) {
-                System.out.println(i);  //Last occurence
-                break;
-            }  
+        int j=0;
+        for(int i=n-d; i<n; i++){
+            arr[i]=temp[j];
+            j++;
         }
     }
+
+    public void leftRotateOptimal(int[] arr, int n, int d){
+        reverseArray(arr,0,d-1);
+        reverseArray(arr,d,n-1);
+        reverseArray(arr,0,n-1);
+    }
+
+    public void rightRotateOptimal(int[] arr, int n, int d){
+        reverseArray(arr,0,d);
+        reverseArray(arr,d+1,n-1);
+        reverseArray(arr,0,n-1);
+    }
+
+    public void zerosToEndBrute(int[] arr, int n){
+        ArrayList<Integer> temp = new ArrayList<>();
+        for(int i=0; i<n; i++){
+            if(arr[i]!=0) temp.add(arr[i]);
+        }
+        for(int i=0; i<temp.size(); i++){
+            arr[i]=temp.get(i);
+        }
+        for(int i=temp.size(); i<n; i++){
+            arr[i]=0;
+        }
+    }
+
+    public void zerosToEndOptimal()
 }
 
 
 public class BasicsOfArrayClass {
     public static void main(String[] args) {
-        int arr[] = {1,0,0,2,3,4,0,5,6,0,7};
+        int arr[] = {1,2,3,4,5,0,6,0,7,8,9};
         int n=arr.length;
-        BasicsOfArray Element = new BasicsOfArray();
-        // Element.largestElement(arr, n);
-        // Element.SecondLargestElement(arr, n);
-        // Element.SecondSmallestElement(arr,n);
-        // System.out.println(Element.isSorted(arr));
-        // Element.removeDuplicates(arr, n);
-        // Element.leftRotateByOne(arr, n);
-        // Element.leftRotateByD(arr, n, 3);
-        // Element.rightRotateByD(arr, n, 3);
-        // Element.ZerosToEnd(arr,n);
-        Element.linearSearch(arr, 0, n);
+        BasicsOfArray obj = new BasicsOfArray();
+        // obj.secondSmallest(arr,n);
+        // obj.leftRotateBrute(arr,n,3);
+        // obj.leftRotateOptimal(arr,n,3);
+        obj.zerosToEndBrute(arr,n);
+        obj.display(arr,n);
     }
+
 }

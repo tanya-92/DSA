@@ -158,20 +158,109 @@ class BasicsOfArray{
         }
     }
 
-    public void zerosToEndOptimal()
+    public void zerosToEndOptimal(int[] arr, int n){
+        int j = -1;
+        for(int i=0; i<n; i++){
+            if(arr[i]==0) {
+                j=i;
+                break;
+            }
+        }
+        for(int i=j+1; i<n; i++){
+            if(arr[i]!=0){
+                int temp = arr[i];
+                arr[i]=arr[j];
+                arr[j]=temp;
+                j++;
+            }
+        }
+    }
+
+    public int linearSearch(int[] arr, int n,int key){
+        for(int i=0; i<n; i++){
+            if(arr[i]==key) return i;
+        }
+        return -1;
+    }
+
+    public void unionBrute(int[] arr1, int[] arr2){
+        int n1=arr1.length; int n2=arr2.length;
+        Set<Integer> st = new TreeSet<>();  //ordered              :-for unordered(HashSet)    :-for Insertion order(LinkedHashSet)
+        for(int i=0; i<n1; i++){
+            st.add(arr1[i]);
+        }
+        for(int i=0; i<n2; i++){
+            st.add(arr2[i]);
+        }
+        int[] unionArr = new int[st.size()];
+        int index = 0;
+        for (int num : st) {
+            unionArr[index++] = num;
+        }
+        for (int num : unionArr) {
+            System.out.print(num + " ");
+        }
+    }
+
+    public int[] unionOptimal(int[] arr1, int[] arr2){       //2 pointer approach
+        int i=0; int j=0;
+        int n1=arr1.length; int n2=arr2.length;
+        ArrayList<Integer> unionList = new ArrayList<>();
+        while(i<n1 && j<n2){
+            if(arr1[i]<=arr2[j]){
+                if(unionList.isEmpty() || !unionList.get(unionList.size()-1).equals(arr1[i])){
+                    unionList.add(arr1[i]);
+                }
+                i++;
+            }
+            else{
+                if(unionList.isEmpty() || !unionList.get(unionList.size()-1).equals(arr2[j])){
+                    unionList.add(arr2[j]);
+                }
+                j++;
+            }
+        }
+        while(i<n1){
+            if (unionList.isEmpty() || !unionList.get(unionList.size() - 1).equals(arr1[i])) {
+                unionList.add(arr1[i]);
+            }
+            i++;
+        }
+        while(j<n2){
+            if(unionList.isEmpty() || !unionList.get(unionList.size()-1).equals(arr2[j])){
+                    unionList.add(arr2[j]);
+                }
+                j++;
+        }
+        int[] result = new int[unionList.size()];
+        for (int k = 0; k < unionList.size(); k++) {
+            result[k] = unionList.get(k);
+        }
+        return result;
+    }
+
+    public intersectionBrute(int[] arr1, int[] arr2){
+        int n1=arr1.length; int n2=arr2.length;
+        
+    }
 }
 
 
 public class BasicsOfArrayClass {
     public static void main(String[] args) {
-        int arr[] = {1,2,3,4,5,0,6,0,7,8,9};
+        int arr[] = {1,2,3,4,5,7,8,19};
+        int arr2[] = {2,4,5,9};
         int n=arr.length;
         BasicsOfArray obj = new BasicsOfArray();
         // obj.secondSmallest(arr,n);
         // obj.leftRotateBrute(arr,n,3);
         // obj.leftRotateOptimal(arr,n,3);
-        obj.zerosToEndBrute(arr,n);
-        obj.display(arr,n);
+        // obj.zerosToEndBrute(arr,n);
+        // obj.display(arr,n);
+        // obj.zerosToEndOptimal(arr,n);
+        obj.unionBrute(arr,arr2);
+        int[] ans = obj.unionOptimal(arr,arr2);
+        System.out.println(Arrays.toString(ans));
     }
 
 }

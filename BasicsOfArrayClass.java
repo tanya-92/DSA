@@ -318,12 +318,80 @@ class BasicsOfArray{
         xor1 = xor1 ^ n;
         System.out.println(xor1 ^ xor2);
     }
+
+    public int maxConsecutiveOne(int[] arr){
+        int count = 0; int maximum = 0;
+        int n = arr.length;
+        for(int i=0; i<n; i++){
+            if(arr[i]==1){
+                count++;
+                maximum = Math.max(maximum,count);
+            }
+            else{
+                count = 0;
+            }
+        }
+        return maximum;
+    }
+
+    public int noAppearingOnceBrute(int[] arr,int n){
+        for(int i=0; i<n; i++){
+            int num = arr[i];
+            int count = 0;
+            for(int j=0; j<n; j++){
+                if(arr[j]==num){
+                    count++;
+                }
+            }
+            if(count == 1) return num;
+        }
+        return -1;
+    }
+
+    public int noAppearingOnceBetter(int[] arr,int n){
+        int max = arr[0];
+        for(int i=0; i<n; i++){
+            max = Math.max(max,arr[i]);
+        }
+        int[] hash = new int[max+1];
+        for(int i=0; i<n; i++){
+            hash[arr[i]]++;
+        }
+        for(int i=0; i<n; i++){
+            if(hash[arr[i]]==1){
+                return arr[i];
+            }
+        }
+        return -1;
+    }
+
+    public int noAppearingOnceBetter2(int[] arr, int n){
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            map.put(arr[i], map.getOrDefault(arr[i], 0) + 1);
+        }
+        for (int key : map.keySet()) {
+            if (map.get(key) == 1) {
+                return key;
+            }
+        }
+        return -1;
+    }
+
+    public int noAppearingOnceOptimal(int[] arr, int n){
+        int xor = 0;
+        for(int i=0; i<n; i++){
+            xor = xor^arr[i];
+        }
+        return xor;
+    }
 }
 
 
 public class BasicsOfArrayClass {
     public static void main(String[] args) {
-        int arr[] = {1,2,4,5,6};
+        // int arr[] = {1,1,1,0,1,0,1,1,1,1,0,1};
+        int arr[] = {1,1,2,2,3,4,4,5,5};
         int arr2[] = {2,4,5,7,9};
         int n=arr.length;
         BasicsOfArray obj = new BasicsOfArray();
@@ -343,7 +411,12 @@ public class BasicsOfArrayClass {
         // obj.missingNoBrute(arr,n);
         // obj.missingNoBetter(arr,n+1);            //total length+missing one
         // obj.missingNoOptimal1(arr,n+1);
-        obj.missingNoOptimal2(arr,n+1);
+        // obj.missingNoOptimal2(arr,n+1);
+        // System.out.println(obj.maxConsecutiveOne(arr));
+        // System.out.println(obj.noAppearingOnceBrute(arr,n));
+        // System.out.println(obj.noAppearingOnceBetter(arr,n));
+        System.out.println(obj.noAppearingOnceBetter2(arr,n));
+        System.out.println(obj.noAppearingOnceOptimal(arr,n));
     }
 
 }

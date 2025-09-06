@@ -385,13 +385,60 @@ class BasicsOfArray{
         }
         return xor;
     }
+
+    public int longestPositiveSubarrayWithSumKBrute(int[] arr, int n, int k){
+        int length = 0;
+        for(int i=0; i<n; i++){
+            int sum = 0;
+            for(int j=i; j<n; j++){
+                sum = sum+arr[j];
+                if(sum==k){
+                    length = Math.max(length,j-i+1);
+                }
+            }
+        }
+        return length;
+    }
+
+    public int longestPositiveSubarrayWithSumKBetter(int[] arr, int n, int k){
+        Map<Long, Integer> mpp = new HashMap<>();
+        long sum = 0;
+        int maxLen = 0;
+        for(int i=0; i<n; i++){
+            sum += arr[i];
+            if(sum==k){
+                maxLen = Math.max(maxLen,i+1);
+            }
+            long rem = sum-k;
+            
+        }
+        return maxLen;
+    }
+
+    public int longestPositiveSubarrayWithSumKOptimal(int[] arr, int n, int k){
+        int left = 0; int right = 0;
+        long sum = arr[0];
+        int maxLen = 0;
+        while(right<n){
+            while(sum>k && left <= right){
+                sum -= arr[left];
+                left++;
+            }
+            if(sum == k){
+                maxLen = Math.max(maxLen,right-left+1);
+            }
+            right++;
+            if(right<n) sum += arr[right];
+        }
+        return maxLen;
+    }
 }
 
 
 public class BasicsOfArrayClass {
     public static void main(String[] args) {
         // int arr[] = {1,1,1,0,1,0,1,1,1,1,0,1};
-        int arr[] = {1,1,2,2,3,4,4,5,5};
+        int arr[] = {1,2,3,1,1,1,1,4,5};
         int arr2[] = {2,4,5,7,9};
         int n=arr.length;
         BasicsOfArray obj = new BasicsOfArray();
@@ -415,8 +462,10 @@ public class BasicsOfArrayClass {
         // System.out.println(obj.maxConsecutiveOne(arr));
         // System.out.println(obj.noAppearingOnceBrute(arr,n));
         // System.out.println(obj.noAppearingOnceBetter(arr,n));
-        System.out.println(obj.noAppearingOnceBetter2(arr,n));
-        System.out.println(obj.noAppearingOnceOptimal(arr,n));
+        // System.out.println(obj.noAppearingOnceBetter2(arr,n));
+        // System.out.println(obj.noAppearingOnceOptimal(arr,n));
+        // System.out.println(obj.longestPositiveSubarrayWithSumKBrute(arr,n,3));
+        System.out.println(obj.longestPositiveSubarrayWithSumKOptimal(arr,n,3));
     }
 
 }

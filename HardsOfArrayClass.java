@@ -1,6 +1,133 @@
 import java.util.*;
 
 class HardsOfArray{
+    public long nCr(int r, int c){
+        long result = 1;
+        for(int i=0; i<c; i++){
+            result = result * (r-i);
+            result = result / (i+1);
+        }
+        return result;
+    }
+
+    public int pascalTrianglePrintElementOptimal(int r, int c){
+        int element = (int) nCr(r - 1, c - 1);
+        return element;
+    }
+
+    public void pascalTrianglePrintRowBrute(int r){
+        for (int i = 1; i <= r; i++) {
+            System.out.print(nCr(r - 1, i - 1) + " ");
+        }
+        System.out.println();
+    }
+
+    public void pascalTrianglePrintRowOptimal(int r){
+        int result = 1;
+        System.out.print(result+" ");
+        for(int i=1; i<r; i++){
+            result = result * (r-i);
+            result = result / i;
+            System.out.print(result+" ");
+        }
+    }
+
+    public void pascalTrianglePrintTriangleBrute(int r){
+        ArrayList<ArrayList<Long>> result = new ArrayList<>();
+        for(int i=0; i<r; i++){
+            ArrayList<Long> temp = new ArrayList<>();
+            for(int j=0; j<=i; j++){
+                temp.add(nCr(i,j));
+            }
+            result.add(temp);
+        }
+        for (ArrayList<Long> i : result) {
+            for (Long val : i) {
+                System.out.print(val + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public List<Integer> pascalTriangleGenerateRowsOptimal(int r){
+        int ans = 1;
+        ArrayList<Integer> ansRow = new ArrayList<>();
+        ansRow.add(1);
+        for(int i=1; i<r; i++){
+            ans = ans * (r-i);
+            ans = ans / i;
+            ansRow.add(ans);
+        }
+        return ans;
+    }
+
+    public List<List<Integer>> pascalTrianglePrintTriangleOptimal(int n) {
+        List<List<Integer>> ans = new ArrayList<>();
+        //store the entire pascal's triangle:
+        for (int row = 1; row <= n; row++) {
+            ans.add(pascalTriangleGenerateRowsOptimal(row));
+        }
+        return ans;
+    }
+
+    
+    public List<Integer> majorityElementBrute(int[] arr, int n){
+        ArrayList<Integer> ls = new ArrayList<>();
+        for(int i=0; i<n; i++){
+            if (result.contains(arr[i])) continue;
+            int count = 0;
+            for(int j=0; j<n; j++){
+                if(arr[j] == arr[i]) count++;
+            }
+            if(count > n/3) ls.add(arr[i]);
+        }
+        return ls;
+    }
+
+    public List<Integer> majorityElementBetter(int[] arr, int n){
+        ArrayList<Integer> ls = new ArrayList<>();
+        Map<Integer, Integer> map = new HashMap<>();
+        int min = (n/3)+1;
+        for(int i=0; i<n; i++){
+            map.put(arr[i], map.getOrDefault(arr[i], 0) + 1);
+            if(mpp.get(arr[i])==min){
+                ls.add(arr[i]);
+            }
+            if(ls.size()==2) break;
+        }
+    }
+
+    public List<Integer> majorityElementOptimal(int[] arr, int n){
+        int cnt1 = 0; int cnt2 = 0;
+        int ele1 = Integer.MIN_VALUE; int ele2 = Integer.MIN_VALUE;
+        for(int i=0; i<n; i++){
+            if(cnt1 == 0 && arr[i] != ele2){
+                cnt1 = 1;
+                ele1 = arr[i];
+            }
+            else if(cnt2 == 0 && arr[i] != ele1){
+                cnt2 = 1;
+                ele2 = arr[i];
+            }
+            else if(ele1 == arr[i]) cnt1++;
+            else if(ele2 == arr[i]) cnt2++;
+            else{
+                cnt1--;
+                cnt2--;
+            }
+        }
+
+        ArrayList<Integer> ls = new ArrayList<>();
+        cnt1 = 0; cnt2 = 0;
+        for(int i=0; i<n; i++){
+            if(ele1 == arr[i]) cnt1++;
+            if(ele2 == arr[i]) cnt2++;
+        }
+        int minimum = (int)(n/3)+1;
+        if(cnt1>=minimum) ls.add(ele1);
+        if(cnt2>=minimum) ls.add(ele2);
+        return ls;
+    }
 
     public int maximumProductSubarrayBrute(int[] arr, int n){
         int maximum = Integer.MIN_VALUE;
@@ -137,7 +264,7 @@ class HardsOfArray{
 
 public class HardsOfArrayClass {
     public static void main(String[] args){
-        int arr[] = {5,3,0,4,1};
+        int arr[] = {1,1,1,1,2,2,2};
         int arr2[] = {40,25,19,12,9,6,2};
         int n=arr.length;
         HardsOfArray obj = new HardsOfArray();
@@ -145,6 +272,18 @@ public class HardsOfArrayClass {
         // System.out.println(obj.CountInversionsAndMergeSortOptimal(arr,0,4));
         // System.out.println(obj.team(arr2,n));
         // System.out.println(obj.maximumProductSubarrayBrute(arr,n));
-        System.out.println(obj.maximumProductSubarrayOptimal(arr,n));
+        // System.out.println(obj.maximumProductSubarrayOptimal(arr,n));
+        // System.out.println(obj.pascalTrianglePrintElementOptimal(5,3));
+        // obj.pascalTrianglePrintRowBrute(5);
+        // obj.pascalTrianglePrintRowOptimal(5);
+        // obj.pascalTrianglePrintTriangleBrute(6);
+        // List<List<Integer>> ans = pascalTrianglePrintTriangleOptimal(6);
+        // for (List<Integer> it : ans) {
+        //     for (int ele : it) {
+        //         System.out.print(ele + " ");
+        //     }
+        //     System.out.println();
+        // }
+        obj.majorityElementOptimal(arr,n);
     }
 }

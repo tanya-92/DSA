@@ -194,12 +194,48 @@ class MediumsOfArray{
         } 
         return ans;
     }
+
+    public int[] reArrangeArrayElementBySignBruteVareity2(int[] arr, int n){
+        List<Integer> pos = new ArrayList<>();
+        List<Integer> neg = new ArrayList<>();
+        for(int i=0; i<n; i++){
+            if(arr[i]>0) pos.add(arr[i]);
+            else neg.add(arr[i]);
+        }
+        if(pos.size() > neg.size()){
+            for(int i=0; i<neg.size(); i++){
+                arr[2*i] = pos.get(i);
+                arr[2*i+1] = neg.get(i);
+            }
+            int index = neg.size() * 2;
+            for(int i=neg.size(); i<pos.size(); i++){
+                arr[index] = pos.get(i);
+                index++;
+            }
+        }
+        else{
+            for(int i=0; i<pos.size(); i++){
+                arr[2*i] = pos.get(i);
+                arr[2*i+1] = neg.get(i);
+            }
+            int index = pos.size() * 2;
+            for(int i=pos.size(); i<neg.size(); i++){
+                arr[index] = neg.get(i);
+                index++;
+            }
+        }
+        return arr;
+    }
+
+    public void nextPermutationBrute(int[] arr, int n){
+        
+    }
 }
 
 public class MediumsOfArrayClass {
     public static void main(String[] args){
         int arr[] = {-2,-3,-4,-1,-2};
-        int arr2[] = {3,1,-2,-5,2,-4};
+        int arr2[] = {3,-5,-7,1,-2,-5,2,-4};
         int n=arr2.length;
         MediumsOfArray obj = new MediumsOfArray();
         // obj.twoSumOptimal(arr,n,14);
@@ -212,7 +248,9 @@ public class MediumsOfArrayClass {
         // System.out.println(obj.maximumSubarraySumOptimal(arr,n));
         // obj.stocksProblem(arr2,n);
         // obj.reArrangeArrayElementBySignBrute(arr2,n);
-        int[] reArranged = obj.reArrangeArrayElementBySignOptimal(arr2,n);
+        // int[] reArranged = obj.reArrangeArrayElementBySignOptimal(arr2,n);
+        // System.out.println(Arrays.toString(reArranged));
+        int[] reArranged = obj.reArrangeArrayElementBySignBruteVareity2(arr2,n);
         System.out.println(Arrays.toString(reArranged));
     }
 }

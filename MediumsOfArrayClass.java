@@ -7,6 +7,14 @@ class MediumsOfArray{
         arr[j] = temp;
     }
 
+    public void reverseArray(int[] arr, int start, int end) {
+    while (start < end) {
+        swap(arr, start, end);
+            start++;
+            end--;
+        }
+    }
+
     // public void twoSumBrute(int[] arr, int n, int target){
     //     for(int i=0; i<n; i++){
     //         for(int j=i+1; j<n; j++){
@@ -195,7 +203,7 @@ class MediumsOfArray{
         return ans;
     }
 
-    public int[] reArrangeArrayElementBySignBruteVareity2(int[] arr, int n){
+    public int[] reArrangeArrayElementBySignBruteVareity2(int[] arr, int n){     //when positives != negatives in the array
         List<Integer> pos = new ArrayList<>();
         List<Integer> neg = new ArrayList<>();
         for(int i=0; i<n; i++){
@@ -227,16 +235,62 @@ class MediumsOfArray{
         return arr;
     }
 
-    public void nextPermutationBrute(int[] arr, int n){
-        
+    public void nextPermutationOptimal(int[] arr, int n){
+        int index = -1;
+        for(int i=n-2; i>=0; i--){
+            if(arr[i]<arr[i+1]){
+                index=i;
+                break;
+            }
+        }
+        if(index == -1) {
+            reverseArray(arr,0,n-1);
+            return;
+        }
+        for(int i=n-1; i>index; i--){
+            if(arr[i]>arr[index]) {
+                swap(arr, i, index);
+                break;
+            }
+        }
+        reverseArray(arr,index+1,n-1);
+        for(int i=0; i<n; i++){
+            System.out.print(arr[i]+" ");
+        }
+    }
+
+    public ArrayList<Integer> LeadersInArrayBrute(int[] arr, int n){
+        ArrayList<Integer> ans = new ArrayList<>();
+        for(int i=0; i<n; i++){
+            boolean leader = true;
+            for(int j=i+1; j<n; j++){
+                if(arr[j]>arr[i]){
+                    leader = false;
+                    break;
+                }
+            }
+            if(leader==true) ans.add(arr[i]);
+        }
+        return ans;
+    }
+
+    public ArrayList<Integer> LeadersInArrayOptimal(int[] arr, int n){
+        int maxi = Integer.MIN_VALUE;
+        ArrayList<Integer> ans = new ArrayList<>();
+        for(int i=n-1; i>=0; i--){
+            if(arr[i]>maxi) ans.add(arr[i]);
+            maxi = Math.max(maxi,arr[i]);
+        }
+        // Collections.sort(ans);
+        return ans;
     }
 }
 
 public class MediumsOfArrayClass {
     public static void main(String[] args){
-        int arr[] = {-2,-3,-4,-1,-2};
+        int arr[] = {10,22,12,3,0,6};
         int arr2[] = {3,-5,-7,1,-2,-5,2,-4};
-        int n=arr2.length;
+        int n=arr.length;
         MediumsOfArray obj = new MediumsOfArray();
         // obj.twoSumOptimal(arr,n,14);
         // obj.sort0s1s2sBetter(arr,n);
@@ -250,7 +304,10 @@ public class MediumsOfArrayClass {
         // obj.reArrangeArrayElementBySignBrute(arr2,n);
         // int[] reArranged = obj.reArrangeArrayElementBySignOptimal(arr2,n);
         // System.out.println(Arrays.toString(reArranged));
-        int[] reArranged = obj.reArrangeArrayElementBySignBruteVareity2(arr2,n);
-        System.out.println(Arrays.toString(reArranged));
+        // int[] reArranged = obj.reArrangeArrayElementBySignBruteVareity2(arr2,n);
+        // System.out.println(Arrays.toString(reArranged));
+        // obj.nextPermutationOptimal(arr,n);
+        // System.out.println(obj.LeadersInArrayBrute(arr,n));
+        System.out.println(obj.LeadersInArrayOptimal(arr,n));
     }
 }

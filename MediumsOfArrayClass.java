@@ -306,9 +306,45 @@ class MediumsOfArray{
         System.out.println(longest);
     }
 
-    public void longestSubsequenceArrayBetter(int[] arr, int n){
-        
+    public int longestSubsequenceArrayBetter(int[] arr, int n){
+        Arrays.sort(arr);
+        int longest = 1;
+        int cnt = 0;
+        int last_smallest = Integer.MIN_VALUE;
+        for(int i=0; i<n; i++){
+            if(arr[i]-1 == last_smallest){
+                cnt++;
+                last_smallest = arr[i];
+            }
+            else if(last_smallest != arr[i]){
+                cnt = 1;
+                last_smallest = arr[i];
+            }
+            longest = Math.max(longest, cnt);
+        }
+        return longest;
     }
+
+    public int longestSubsequenceArrayOptimal(int[] arr, int n){
+        if(n==0) return 0;
+        int longest = 1;
+        Set<Integer> set = new HashSet<>();
+        for(int i=0; i<n; i++) set.add(arr[i]);
+        for(int i : set){
+            if(!set.contains(i-1)){
+                int cnt = 1;
+                int x = i;
+                while(set.contains(x+1)){
+                    x++;
+                    cnt++;
+                }
+                longest = Math.max(longest, cnt);
+            }
+        }
+        return longest;
+    }
+
+    public 
 }
 
 public class MediumsOfArrayClass {
@@ -334,6 +370,8 @@ public class MediumsOfArrayClass {
         // obj.nextPermutationOptimal(arr,n);
         // System.out.println(obj.LeadersInArrayBrute(arr,n));
         // System.out.println(obj.LeadersInArrayOptimal(arr,n));
-        obj.longestSubsequenceArrayBrute(arr,n);
+        // obj.longestSubsequenceArrayBrute(arr,n);
+        // System.out.println(obj.longestSubsequenceArrayBetter(arr,n));
+        System.out.println(obj.longestSubsequenceArrayOptimal(arr,n));
     }
 }

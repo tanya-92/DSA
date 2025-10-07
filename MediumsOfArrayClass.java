@@ -344,7 +344,101 @@ class MediumsOfArray{
         return longest;
     }
 
-    public 
+    public void markRow(ArrayList<ArrayList<Integer>> matrix, int n, int m, int j){
+        for(int col=0; col<m; col++){
+            if (matrix.get(j).get(col) != 0) {
+                matrix.get(j).set(col, -1);
+            }
+        }
+    }
+
+    public void markCol(ArrayList<ArrayList<Integer>> matrix, int n, int m, int i){
+        for(int row=0; row<n; row++){
+            if (matrix.get(row).get(i) != 0) {
+                matrix.get(row).set(i, -1);
+            }
+        }
+    }
+
+    public ArrayList<ArrayList<Integer>> setMatrixZeroBrute(ArrayList<ArrayList<Integer>> matrix){
+        int n = matrix.size();
+        int m = matrix.get(0).size();
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                if(matrix.get(i).get(j) == 0){
+                    markRow(matrix, n, m, i);
+                    markCol(matrix, n, m, i);
+                }
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (matrix.get(i).get(j) == -1) {
+                    matrix.get(i).set(j, 0);
+                }
+            }
+        }
+        return matrix;
+    }
+
+    public ArrayList<ArrayList<Integer>> setMatrixZeroBetter(ArrayList<ArrayList<Integer>> matrix){
+        int n = matrix.size();
+        int m = matrix.get(0).size();
+        int[] row = new int[n];
+        int[] col = new int[m];
+        
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                if(matrix.get(i).get(j) == 0){
+                    row[i]=1;
+                    col[j]=1;
+                }
+            }
+        }
+
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                if(row[i]==1 || col[j]==1){
+                    matrix.get(i).set(j,0);
+                }
+            }
+        }
+        return matrix;
+    }
+
+    public ArrayList<ArrayList<Integer>> setMatrixZeroOptimal(ArrayList<ArrayList<Integer>> matrix){
+        int n = matrix.size();
+        int m = matrix.get(0).size();
+        int col0 = 1;
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                if(matrix.get(i).get(j) == 0){
+                    matrix.get(i).set(0,0);
+                    if(j!=0) matrix.get(0).set(j,0);
+                    else col0 = 0;
+                }
+            }
+        }
+        for(int i=1; i<n; i++){
+            for(int j=1; j<n; j++){
+                if(matrix.get(i).get(0) == 0 || matrix.get(0).get(j) == 0) matrix.get(i).set(j,0);
+            }
+        }
+
+        if (matrix.get(0).get(0) == 0) {
+            for (int j = 0; j < m; j++) {
+                matrix.get(0).set(j, 0);
+            }
+        }
+        if (col0 == 0) {
+            for (int i = 0; i < n; i++) {
+                matrix.get(i).set(0, 0);
+            }
+        }
+
+        return matrix;
+    }
 }
 
 public class MediumsOfArrayClass {
@@ -352,6 +446,12 @@ public class MediumsOfArrayClass {
         int arr[] = {102,4,100,1,101,3,2,1,1};
         int arr2[] = {3,-5,-7,1,-2,-5,2,-4};
         int n=arr.length;
+
+        ArrayList<ArrayList<Integer>> matrix = new ArrayList<>();
+        matrix.add(new ArrayList<>(Arrays.asList(1,1,1)));
+        matrix.add(new ArrayList<>(Arrays.asList(1,0,1)));
+        matrix.add(new ArrayList<>(Arrays.asList(1,1,1)));
+
         MediumsOfArray obj = new MediumsOfArray();
         // obj.twoSumOptimal(arr,n,14);
         // obj.sort0s1s2sBetter(arr,n);
@@ -372,6 +472,15 @@ public class MediumsOfArrayClass {
         // System.out.println(obj.LeadersInArrayOptimal(arr,n));
         // obj.longestSubsequenceArrayBrute(arr,n);
         // System.out.println(obj.longestSubsequenceArrayBetter(arr,n));
-        System.out.println(obj.longestSubsequenceArrayOptimal(arr,n));
+        // System.out.println(obj.longestSubsequenceArrayOptimal(arr,n));
+        // ArrayList<ArrayList<Integer>> ans = obj.setMatrixZeroBrute(matrix);
+        // ArrayList<ArrayList<Integer>> ans = obj.setMatrixZeroBetter(matrix);
+        ArrayList<ArrayList<Integer>> ans = obj.setMatrixZeroOptimal(matrix);
+        for(ArrayList<Integer> row : ans){
+            for(Integer ele : row){
+                System.out.print(ele + " ");
+            }
+            System.out.println();
+        }
     }
 }

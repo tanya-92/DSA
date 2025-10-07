@@ -439,10 +439,44 @@ class MediumsOfArray{
 
         return matrix;
     }
+
+    public int[][] rotateMatrixby90Brute(int[][] arr3){
+        int n = arr3.length;
+        int rotated[][] = new int[n][n];
+        for(int i=0; i<n; i++){
+            for(int j=0; j<n; j++){
+                rotated[j][n-1-i] = arr3[i][j];
+            }
+        }
+        return rotated;
+    }
+
+    public int[][] rotateMatrixby90Optimal(int[][] arr3){
+        //transpose
+        int n = arr3.length;
+        for(int i=0; i<n-1; i++){
+            for(int j=i; j<n; j++){
+                int temp = 0;
+                temp = arr3[i][j];
+                arr3[i][j] = arr3[j][i];
+                arr3[j][i] = temp;
+            }
+        }
+        for (int i = 0; i < arr3.length; i++) {
+            for (int j = 0; j < arr3.length / 2; j++) {
+                int temp = 0;
+                temp = arr3[i][j];
+                arr3[i][j] = arr3[i][arr3.length - 1 - j];
+                arr3[i][arr3.length - 1 - j] = temp;
+            }
+        }
+        return arr3;
+    }
 }
 
 public class MediumsOfArrayClass {
     public static void main(String[] args){
+        MediumsOfArray obj = new MediumsOfArray();
         int arr[] = {102,4,100,1,101,3,2,1,1};
         int arr2[] = {3,-5,-7,1,-2,-5,2,-4};
         int n=arr.length;
@@ -452,7 +486,17 @@ public class MediumsOfArrayClass {
         matrix.add(new ArrayList<>(Arrays.asList(1,0,1)));
         matrix.add(new ArrayList<>(Arrays.asList(1,1,1)));
 
-        MediumsOfArray obj = new MediumsOfArray();
+        //rotate matrix by 90 degrees
+        int arr3[][] =  {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+        // int rotated[][] = obj.rotateMatrixby90Brute(arr3);
+        int rotated[][] = obj.rotateMatrixby90Optimal(arr3);
+        for (int i = 0; i < rotated.length; i++) {
+            for (int j = 0; j < rotated.length; j++) {
+                System.out.print(rotated[i][j] + " ");
+            }
+            System.out.println();
+        }
+
         // obj.twoSumOptimal(arr,n,14);
         // obj.sort0s1s2sBetter(arr,n);
         // obj.sort0s1s2sOptimal(arr,n);
@@ -475,12 +519,13 @@ public class MediumsOfArrayClass {
         // System.out.println(obj.longestSubsequenceArrayOptimal(arr,n));
         // ArrayList<ArrayList<Integer>> ans = obj.setMatrixZeroBrute(matrix);
         // ArrayList<ArrayList<Integer>> ans = obj.setMatrixZeroBetter(matrix);
-        ArrayList<ArrayList<Integer>> ans = obj.setMatrixZeroOptimal(matrix);
-        for(ArrayList<Integer> row : ans){
-            for(Integer ele : row){
-                System.out.print(ele + " ");
-            }
-            System.out.println();
-        }
+        // ArrayList<ArrayList<Integer>> ans = obj.setMatrixZeroOptimal(matrix);
+        // for(ArrayList<Integer> row : ans){
+        //     for(Integer ele : row){
+        //         System.out.print(ele + " ");
+        //     }
+        //     System.out.println();
+        // }
+
     }
 }

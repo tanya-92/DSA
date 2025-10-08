@@ -472,6 +472,10 @@ class MediumsOfArray{
         }
         return arr3;
     }
+
+    public int[][] spiralMatrix(int [][] arr){
+        
+    }
 }
 
 public class MediumsOfArrayClass {

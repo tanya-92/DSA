@@ -15,13 +15,13 @@ class MediumsOfArray{
         }
     }
 
-    // public void twoSumBrute(int[] arr, int n, int target){
-    //     for(int i=0; i<n; i++){
-    //         for(int j=i+1; j<n; j++){
-    //             if(arr[i]+arr[j]==target) System.out.println(i+" "+j);
-    //         }
-    //     }
-    // }
+    public void twoSumBrute(int[] arr, int n, int target){
+        for(int i=0; i<n; i++){
+            for(int j=i+1; j<n; j++){
+                if(arr[i]+arr[j]==target) System.out.println(i+" "+j);
+            }
+        }
+    }
 
     public void twoSumBetter(int[] arr, int n, int target){
         Map<Integer, Integer> mpp = new HashMap<>();
@@ -473,9 +473,9 @@ class MediumsOfArray{
         return arr3;
     }
 
-    public int[][] spiralMatrix(int [][] arr){
+    // public int[][] spiralMatrix(int [][] arr){
         
-    }
+    // }
 }
 
 public class MediumsOfArrayClass {
@@ -485,22 +485,23 @@ public class MediumsOfArrayClass {
         int arr2[] = {3,-5,-7,1,-2,-5,2,-4};
         int n=arr.length;
 
-        ArrayList<ArrayList<Integer>> matrix = new ArrayList<>();
-        matrix.add(new ArrayList<>(Arrays.asList(1,1,1)));
-        matrix.add(new ArrayList<>(Arrays.asList(1,0,1)));
-        matrix.add(new ArrayList<>(Arrays.asList(1,1,1)));
+        // ArrayList<ArrayList<Integer>> matrix = new ArrayList<>();
+        // matrix.add(new ArrayList<>(Arrays.asList(1,1,1)));
+        // matrix.add(new ArrayList<>(Arrays.asList(1,0,1)));
+        // matrix.add(new ArrayList<>(Arrays.asList(1,1,1)));
 
-        //rotate matrix by 90 degrees
-        int arr3[][] =  {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
-        // int rotated[][] = obj.rotateMatrixby90Brute(arr3);
-        int rotated[][] = obj.rotateMatrixby90Optimal(arr3);
-        for (int i = 0; i < rotated.length; i++) {
-            for (int j = 0; j < rotated.length; j++) {
-                System.out.print(rotated[i][j] + " ");
-            }
-            System.out.println();
-        }
+        // //rotate matrix by 90 degrees
+        // int arr3[][] =  {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+        // // int rotated[][] = obj.rotateMatrixby90Brute(arr3);
+        // int rotated[][] = obj.rotateMatrixby90Optimal(arr3);
+        // for (int i = 0; i < rotated.length; i++) {
+        //     for (int j = 0; j < rotated.length; j++) {
+        //         System.out.print(rotated[i][j] + " ");
+        //     }
+        //     System.out.println();
+        // }
 
+        obj.twoSumBrute(arr,n,5);
         // obj.twoSumOptimal(arr,n,14);
         // obj.sort0s1s2sBetter(arr,n);
         // obj.sort0s1s2sOptimal(arr,n);

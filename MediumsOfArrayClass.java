@@ -473,16 +473,74 @@ class MediumsOfArray{
         return arr3;
     }
 
-    // public int[][] spiralMatrix(int [][] arr){
-        
-    // }
+    public ArrayList<Integer> spiralMatrixOptimal(int[][] mat){
+        int n = mat.length;
+        int m = mat[0].length;
+        int left = 0; int right = m-1;
+        int top = 0; int bottom = n-1;
+        ArrayList<Integer> ans = new ArrayList<>();
+        while(top<=bottom && left<=right){
+            for(int i=left; i<=right; i++){
+                ans.add(mat[top][i]);
+            }
+            top++;
+            for(int i=top; i<=bottom; i++){
+                ans.add(mat[i][right]);
+            }
+            right--;
+            for(int i=right; i>=left; i--){
+                ans.add(mat[bottom][i]);
+            }
+            bottom--;
+            for(int i=bottom; i>=top; i--){
+                ans.add(mat[i][left]);
+            }
+            left++;
+        }
+        return ans;
+    }
+
+    public void noOfSubArraysWithSumKBetter(int[] arr, int k){             //brute: O(n^3)
+        int cnt = 0;
+        int n = arr.length;
+        for(int i=0;i<n;i++){
+            int sum = 0;
+            for(int j=i;j<n;j++){
+                sum += arr[j];
+                if(sum == k) cnt++;
+            }
+        }
+        System.out.println(cnt);
+    }
+
+    public void noOfSubArraysWithSumKOptimal(int[] arr, int k){
+        Map<Integer, Integer> mpp = new HashMap<>();
+        int n = arr.length;
+        mpp.put(0,1);
+        int preSum = 0; int cnt = 0;
+        for(int i=0; i<n; i++){
+            preSum += arr[i];
+            int remove = preSum - k;
+            cnt += mpp.getOrDefault(remove, 0);
+            mpp.put(preSum, mpp.getOrDefault(preSum, 0) + 1);
+        }
+        System.out.println(cnt);
+    }
 }
 
 public class MediumsOfArrayClass {
     public static void main(String[] args){
         MediumsOfArray obj = new MediumsOfArray();
-        int arr[] = {102,4,100,1,101,3,2,1,1};
+        int arr[] = {1,2,3,-3,1,1,1,4,2,-3};
         int arr2[] = {3,-5,-7,1,-2,-5,2,-4};
+        // int[][] spiralArr = {
+        //     {1, 2, 3, 4, 5, 6},
+        //     {20, 21, 22, 23, 24, 7},
+        //     {19, 32, 33, 34, 25, 8},
+        //     {18, 31, 36, 35, 26, 9},
+        //     {17, 30, 29, 28, 27, 10},
+        //     {16, 15, 14, 13, 12, 11}
+        // };
         int n=arr.length;
 
         // ArrayList<ArrayList<Integer>> matrix = new ArrayList<>();
@@ -501,7 +559,7 @@ public class MediumsOfArrayClass {
         //     System.out.println();
         // }
 
-        obj.twoSumBrute(arr,n,5);
+        // obj.twoSumBrute(arr,n,5);
         // obj.twoSumOptimal(arr,n,14);
         // obj.sort0s1s2sBetter(arr,n);
         // obj.sort0s1s2sOptimal(arr,n);
@@ -531,6 +589,8 @@ public class MediumsOfArrayClass {
         //     }
         //     System.out.println();
         // }
-
+        // System.out.println(obj.spiralMatrixOptimal(spiralArr));
+        // obj.noOfSubArraysWithSumKBetter(arr,3);
+        obj.noOfSubArraysWithSumKOptimal(arr,3);
     }
 }

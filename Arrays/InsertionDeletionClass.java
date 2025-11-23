@@ -31,7 +31,7 @@ public class InsertionDeletionClass{
         arr[2] = 12;
         arr[3] = 27;
         arr[4] = 88;
-        Insertion obj = new Insertion();
+        InsertionDeletion obj = new InsertionDeletion();
         // obj.display(arr, 5);
         // obj.indexInsertion(arr,5,45,2);
         System.out.println(obj.indexDeletion(arr,5,6));

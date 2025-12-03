@@ -58,7 +58,7 @@ class HardsOfArray{
             ans = ans / i;
             ansRow.add(ans);
         }
-        return ans;
+        return ansRow;
     }
 
     public List<List<Integer>> pascalTrianglePrintTriangleOptimal(int n) {
@@ -74,7 +74,7 @@ class HardsOfArray{
     public List<Integer> majorityElementBrute(int[] arr, int n){
         ArrayList<Integer> ls = new ArrayList<>();
         for(int i=0; i<n; i++){
-            if (result.contains(arr[i])) continue;
+            if (ls.contains(arr[i])) continue;
             int count = 0;
             for(int j=0; j<n; j++){
                 if(arr[j] == arr[i]) count++;
@@ -90,11 +90,12 @@ class HardsOfArray{
         int min = (n/3)+1;
         for(int i=0; i<n; i++){
             map.put(arr[i], map.getOrDefault(arr[i], 0) + 1);
-            if(mpp.get(arr[i])==min){
+            if(map.get(arr[i])==min){
                 ls.add(arr[i]);
             }
             if(ls.size()==2) break;
         }
+        return ls;
     }
 
     public List<Integer> majorityElementOptimal(int[] arr, int n){
@@ -128,6 +129,136 @@ class HardsOfArray{
         if(cnt2>=minimum) ls.add(ele2);
         return ls;
     }
+
+    public ArrayList<List<Integer>> threeSumBrute(int[] arr){
+        int n = arr.length;
+        Set<List<Integer>> set = new HashSet<>();
+        for(int i=0; i<n; i++){
+            for(int j=i+1; j<n; j++){
+                for(int k=j+1; k<n; k++){
+                    if(arr[i]+arr[j]+arr[k]==0){
+                        List<Integer> triplet = Arrays.asList(arr[i], arr[j], arr[k]);
+                        Collections.sort(triplet);
+                        set.add(triplet);
+                    }
+                }
+            }
+        }
+        return new ArrayList<>(set);
+    }
+
+    public ArrayList<List<Integer>> threeSumBetter(int[] arr){
+        int n = arr.length;
+        Set<List<Integer>> set = new HashSet<>();
+        for(int i=0; i<n; i++){
+            Set<Integer> hashset = new HashSet<>();
+            for(int j=i+1; j<n; j++){
+                int third = -(arr[i] + arr[j]);
+                if(hashset.contains(third)){
+                    List<Integer> temp = Arrays.asList(arr[i], arr[j], third);
+                    temp.sort(null);
+                    set.add(temp);
+                }
+                hashset.add(arr[j]);
+            }
+        }
+        return new ArrayList<>(set);
+    } 
+
+    public ArrayList<List<Integer>> threeSumOptimal(int[] arr){
+        int n = arr.length;
+        Set<List<Integer>> set = new HashSet<>();
+        Arrays.sort(arr);
+        for(int i=0; i<n; i++){
+            if(i>0 && arr[i] == arr[i-1]) continue;
+            int j = i+1;
+            int k = n-1;
+            while(j<k){
+                int sum = arr[i] + arr[j] + arr[k];
+                if(sum<0) j++;
+                else if(sum>0) k--;
+                else{
+                    List<Integer> temp = Arrays.asList(arr[i], arr[j], arr[k]);
+                    set.add(temp);
+                    j++;
+                    k--;
+                    //skip the duplicates:
+                    while (j < k && arr[j] == arr[j - 1]) j++;
+                    while (j < k && arr[k] == arr[k + 1]) k--;
+                }
+            }
+        }
+        return new ArrayList<>(set); 
+    }
+
+    public ArrayList<List<Integer>> fourSumBrute(int[] arr){
+        int n = arr.length;
+        Set<List<Integer>> set = new HashSet<>();
+        for(int i=0; i<n; i++){
+            for(int j=i+1; j<n; j++){
+                for(int k=j+1; k<n; k++){
+                    for(int l=k+1; l<n; l++){
+                        if(arr[i]+arr[j]+arr[k]+arr[l]==0){
+                        List<Integer> result = Arrays.asList(arr[i], arr[j], arr[k], arr[l]);
+                        Collections.sort(result);
+                        set.add(result);
+                    }
+                    }
+                }
+            }
+        }
+        return new ArrayList<>(set);
+    }
+
+    public ArrayList<List<Integer>> fourSumBetter(int[] arr){
+        int n = arr.length;
+        int target = 0;
+        Set<List<Integer>> set = new HashSet<>();
+        for(int i=0;i<n;i++){
+            for(int j=i+1;j<n;j++){
+                Set<Integer> hashSet = new HashSet<>();
+                for(int k=j+1;k<n;k++){
+                    long sum = (long) arr[i]+arr[j]+arr[k];
+                    long fourth = target-sum;
+                    if(hashSet.contains((int)fourth)){
+                        List<Integer> temp = Arrays.asList(arr[i],arr[j],arr[k],(int)fourth);
+                        Collections.sort(temp);
+                        set.add(temp);
+                    }
+                    hashSet.add(arr[k]);
+                }
+            }
+        }
+        return new ArrayList<>(set);
+    }
+
+    public ArrayList<List<Integer>> fourSumOptimal(int[] arr, int target){
+        int n = arr.length;
+        Arrays.sort(arr);
+        ArrayList<List<Integer>> ans = new ArrayList<>();
+        for(int i=0;i<n;i++){
+            if(i>0 && arr[i]==arr[i-1]) continue;
+            for(int j=i+1;j<n;j++){
+                if(j>i+1 && arr[j]==arr[j-1]) continue;
+                int k = j+1;
+                int l = n-1;
+                while(k<l){
+                    long sum = (long) arr[i]+arr[j]+arr[k]+arr[l];
+                    if(sum<target) k++;
+                    else if(sum>target) l--;
+                    else{
+                        ans.add(Arrays.asList(arr[i],arr[j],arr[k],arr[l]));
+                        k++; l--;
+
+                        while(k<l && arr[k]==arr[k-1]) k++;
+                        while(k<l && arr[l]==arr[l+1]) l--;
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+
 
     public int maximumProductSubarrayBrute(int[] arr, int n){
         int maximum = Integer.MIN_VALUE;
@@ -264,7 +395,7 @@ class HardsOfArray{
 
 public class HardsOfArrayClass {
     public static void main(String[] args){
-        int arr[] = {1,1,1,1,2,2,2};
+        int arr[] = {1,0,-1,0,-2,2};
         int arr2[] = {40,25,19,12,9,6,2};
         int n=arr.length;
         HardsOfArray obj = new HardsOfArray();
@@ -284,6 +415,12 @@ public class HardsOfArrayClass {
         //     }
         //     System.out.println();
         // }
-        obj.majorityElementOptimal(arr,n);
+        // obj.majorityElementOptimal(arr,n);
+        // System.out.println(obj.threeSumBrute(arr));
+        // System.out.println(obj.threeSumBetter(arr));
+        // System.out.println(obj.threeSumOptimal(arr));
+        // System.out.println(obj.fourSumBrute(arr));
+        // System.out.println(obj.fourSumBetter(arr));
+        // System.out.println(obj.fourSumOptimal(arr,0));
     }
 }

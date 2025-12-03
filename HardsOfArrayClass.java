@@ -259,6 +259,76 @@ class HardsOfArray{
         return ans;
     }
 
+    public int countSubArraysWithXORasKbetter(int[] arr, int k){                //Brute: O(n^3)
+        int n = arr.length;
+        int count=0;
+        for(int i=0;i<n;i++){
+            int xor = 0;
+            for(int j=i;j<n;j++){
+                xor = xor ^ arr[j];
+                if(xor==k) count++;
+            }
+        }
+        return count;
+    }
+
+    public int countSubArraysWithXORasKoptimal(int[] arr, int k){
+        int xor=0;
+        Map<Integer,Integer> mpp = new HashMap<>();
+        mpp.put(0,1);
+        int n = arr.length;
+        int count = 0;
+        for(int i=0;i<n;i++){
+            xor = xor^arr[i];
+            int target = xor ^ k;
+            // Add the number of times target has appeared before
+            count += mpp.getOrDefault(target, 0);
+            // Store current prefix xor
+            mpp.put(xor, mpp.getOrDefault(xor, 0) + 1);
+        }
+        return count;
+    }
+
+    public long[] mergeTwoSortedArraysBrute(int[] arr1, int[] arr2){
+        int m = arr1.length; int n = arr2.length;
+        long[] arr = new long[m+n];
+        int left=0,right=0,index=0;
+        while(left<m && right<n){
+            if(arr1[left]<arr2[right]){
+                arr[index] = arr1[left];
+                index++; left++;
+            }
+            else{
+                arr[index] = arr2[right];
+                index++; right++;
+            }
+        }
+        while(left<m) arr[index++] = arr1[left++];
+        while(right<n) arr[index++] = arr2[right++];
+        return arr;
+
+        // for(int i=0;i<m+n;i++){            //putting back into original array and not using extra space
+        //     if(i<m) arr1[i] = arr[i];
+        //     else arr2[i-n] = arr[i];
+        // }
+    }
+
+    public void mergeTwoSortedArraysOptimal1(int[] arr1, int[] arr2){
+        int m = arr1.length; int n = arr2.length;
+        int left = n-1;
+        int right = 0;
+        while(left>=0 && right<n){
+            if(arr1[left]>arr2[right]){
+                int temp = arr1[left];
+                arr1[left] = arr2[right];
+                arr2[right] = temp;
+                left--; right++;
+            }
+            else break;
+        }
+        Arrays.sort(arr1); Arrays.sort(arr2);
+
+    }
 
     public int maximumProductSubarrayBrute(int[] arr, int n){
         int maximum = Integer.MIN_VALUE;
@@ -270,6 +340,42 @@ class HardsOfArray{
             }
         }
         return maximum;
+    }
+
+    // public void mergeTwoSortedArraysOptimal2(int[] arr1, int[] arr2){
+    //     int m = arr1.length; int n = arr2.length;
+    //     int len = m+n;
+    //     int gap = (len/2)+(len%2);
+    //     while(gap>0){
+    //         int left=0; int right=gap+left;
+    //         while(right<len){
+    //             if(left<n && right>=n){
+    //                 swapIfGreater(arr1,arr2,left,right-n);
+    //             }
+    //             else if(left>=n){
+    //                 swapIfGreater()
+    //             }
+    //         }
+    //     }
+    // }
+
+    public int[] missingAndRepeatingBrute(int[] arr){
+        int repeating = -1, missing = -1;
+        int n = arr.length;
+        for(int i=1;i<=n;i++){
+            int cnt = 0;
+            for(int j=0;j<n;j++){
+                if(arr[j]==i) cnt++;
+            }
+            if(cnt==2) repeating = i;
+            else if(cnt==0) missing = i;
+            if(missing!=-1 && repeating!=-1) break;
+        }
+        return new int[]{missing, repeating};
+    }
+
+    public int[] missingAndRepeatingBetter(int[] arr){
+        return new int[]{missing, repeating};
     }
 
     public int maximumProductSubarrayOptimal(int[] arr, int n){
@@ -395,8 +501,8 @@ class HardsOfArray{
 
 public class HardsOfArrayClass {
     public static void main(String[] args){
-        int arr[] = {1,0,-1,0,-2,2};
-        int arr2[] = {40,25,19,12,9,6,2};
+        int arr[] = {1,3,4,5,4};
+        int arr2[] = {2,4,6,8,10};
         int n=arr.length;
         HardsOfArray obj = new HardsOfArray();
         // System.out.println(obj.CountInversionsBrute(arr,n));
@@ -422,5 +528,8 @@ public class HardsOfArrayClass {
         // System.out.println(obj.fourSumBrute(arr));
         // System.out.println(obj.fourSumBetter(arr));
         // System.out.println(obj.fourSumOptimal(arr,0));
+        // System.out.println(Arrays.toString(obj.mergeTwoSortedArraysBrute(arr,arr2)));
+        // System.out.println(obj.mergeTwoSortedArraysOptimal1(arr,arr2));             //will just sort but won't print
+        System.out.println(Arrays.toString(obj.missingAndRepeatingBrute(arr)));
     }
 }

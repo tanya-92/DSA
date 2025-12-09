@@ -375,6 +375,23 @@ class HardsOfArray{
     }
 
     public int[] missingAndRepeatingBetter(int[] arr){
+        int n=arr.length;
+        int repeating = -1, missing = -1;
+        int[] hash = new int[n+1];
+        for(int i=0;i<n;i++){
+            hash[arr[i]]++;
+        }
+        for(int i=1;i<=n;i++){
+            if(hash[i]==2) repeating = i;
+            else if(hash[i]==0) missing = i;
+            if(missing!=-1 && repeating!=-1) break;
+        }
+        return new int[]{missing, repeating};
+    }
+
+    public int[] missingAndRepeatingOptimal1(int[] arr){
+        int n=arr.length;
+        
         return new int[]{missing, repeating};
     }
 
@@ -530,6 +547,7 @@ public class HardsOfArrayClass {
         // System.out.println(obj.fourSumOptimal(arr,0));
         // System.out.println(Arrays.toString(obj.mergeTwoSortedArraysBrute(arr,arr2)));
         // System.out.println(obj.mergeTwoSortedArraysOptimal1(arr,arr2));             //will just sort but won't print
-        System.out.println(Arrays.toString(obj.missingAndRepeatingBrute(arr)));
+        // System.out.println(Arrays.toString(obj.missingAndRepeatingBrute(arr)));
+        // System.out.println(Arrays.toString(obj.missingAndRepeatingBetter(arr)));
     }
 }

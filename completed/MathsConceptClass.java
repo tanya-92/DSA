@@ -179,8 +179,8 @@ public class MathsConceptClass {
     public static void main(String[] args) {
         MathsConcept obj = new MathsConcept();
         int[] array = {1,5,2,3,5,4,5};
-        // int count = obj.countDigits(54666);
-        // System.out.println(count);
+        int count = obj.countDigits(54666);
+        System.out.println(count);
         // System.out.println(obj.reverseNo(1234));
         // System.out.println(obj.checkPalindorme(1234321));
         // System.out.println(obj.isArmstrong(9474));
@@ -193,8 +193,8 @@ public class MathsConceptClass {
         // }
         // System.out.println(obj.isPalindrome("madam"));
         // System.out.println(obj.isPalindrome2("A man, a plan, a canal: Panama"));
-        obj.noHashing(array,5);
-        obj.noHashing2(array,5);
+        // obj.noHashing(array,5);
+        // obj.noHashing2(array,5);
         // System.out.println(obj.characterHashing("aAabcaaghffseAa",'a'));
         // obj.characterHashing2("aaabcaaghffsea",'a');
         // obj.characterHashing3("ZEETVISONLYZEEZZZZTV",'Z');

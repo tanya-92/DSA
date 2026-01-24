@@ -228,8 +228,36 @@ class BinarySearch{
         return -1;
     }
 
-    public int peakElementBrute(int[] arr){
+    public int onePeakElementBrute(int[] arr, int n){
+        for(int i=0; i<n; i++){
+            if((i==0 || arr[i-1]<arr[i]) && (i==n-1 || arr[i]>arr[i+1])) return i;
+        }
         return -1;
+    }
+
+    public int onePeakElementOptimal(int[] arr, int n){
+        if(n==1) return 0;
+        if(arr[0]>arr[1]) return 0;
+        if(arr[n-1]>arr[n-2]) return n-1;
+        int low = 1; int high = n-2;
+        while(low<=high){
+            int mid = (low+high)/2;
+            if(arr[mid]>arr[mid-1] && arr[mid]>arr[mid+1]) return mid;
+            if(arr[mid]>arr[mid-1] && arr[mid]<arr[mid+1]) low = mid+1;
+            else high = mid-1;
+        }
+        return -1;
+    }
+
+    public List<Integer> multiplePeakElementOptimal(int[] arr, int n){
+        List<Integer> peaks = new ArrayList<>();
+        for(int i = 0; i < arr.length; i++){
+            if((i==0 || arr[i] > arr[i-1]) &&
+                (i==arr.length-1 || arr[i] > arr[i+1])){
+                peaks.add(i);
+            }
+        }
+        return peaks;
     }
 
     public int NthRootOfMlinearSearch(int n, int m){
@@ -364,7 +392,7 @@ class BinarySearch{
 
 public class BinarySearchClass {
     public static void main(String[] args){
-        int[] arr = {1,1,2,2,3,4,4};
+        int[] arr = {1,2,3,4,5,4,1,2,1};
         int n=arr.length;
         int[] piles = {3,6,11,7};
         int[] bloomDays = {7,7,7,7,13,11,12,7};
@@ -378,7 +406,10 @@ public class BinarySearchClass {
         // System.out.println(obj.kokoEatingBananasLinearSearch(piles,8));
         // System.out.println(obj.kokoEatingBananasBinarySearch(piles,8));
         // System.out.println(obj.minimumDaysToMakeMbouquetsBinarySearch(bloomDays,2,3));
-        System.out.println(obj.singleElementInSortedArrayBrute(arr,n));
-        System.out.println(obj.singleElementInSortedArrayOptimal(arr,n));
+        // System.out.println(obj.singleElementInSortedArrayBrute(arr,n));
+        // System.out.println(obj.singleElementInSortedArrayOptimal(arr,n));
+        // System.out.println(obj.onePeakElementBrute(arr,n));
+        System.out.println(obj.onePeakElementOptimal(arr,n));
+        System.out.println(obj.multiplePeakElementOptimal(arr,n));
     }
 }

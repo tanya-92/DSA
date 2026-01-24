@@ -259,6 +259,28 @@ class BinarySearch{
         }
         return peaks;
     }
+     
+    public int sqrtBrute(int n){
+        int ans = 1;
+        for(int i=1; i<n; i++){
+            if(i*i<=n) ans = i;
+            else break;
+        }
+        return ans;
+    }
+
+    public long sqrtOptimal(int n){
+        long low = 1; long high = n; long ans = 1;
+        while(low<=high){
+            long mid = (low+high)/2;
+            if(mid*mid <= n) {
+                ans = mid;
+                low = mid+1;
+            }
+            else high = mid-1;
+        }
+        return ans;
+    }
 
     public int NthRootOfMlinearSearch(int n, int m){
         for(int i=1; i<=m; i++){
@@ -409,7 +431,9 @@ public class BinarySearchClass {
         // System.out.println(obj.singleElementInSortedArrayBrute(arr,n));
         // System.out.println(obj.singleElementInSortedArrayOptimal(arr,n));
         // System.out.println(obj.onePeakElementBrute(arr,n));
-        System.out.println(obj.onePeakElementOptimal(arr,n));
-        System.out.println(obj.multiplePeakElementOptimal(arr,n));
+        // System.out.println(obj.onePeakElementOptimal(arr,n));
+        // System.out.println(obj.multiplePeakElementOptimal(arr,n));
+        System.out.println(obj.sqrtBrute(25));
+        System.out.println(obj.sqrtOptimal(25));
     }
 }

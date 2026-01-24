@@ -198,16 +198,50 @@ class BinarySearch{
         return index;
     }
 
-    public int NthRootOfMliearSearch(int n, int m){
-        for(int i=1; i<=m; i++){
-            if(FunctionNthRootOfMliearSearch(i,n) == m){         //function to multiply i, n times
-                return i;
-            }
-            else if(FunctionNthRootOfMliearSearch(i,n) > m) break;
+    public int singleElementInSortedArrayBrute(int[] arr, int n){
+        if(n==1) return arr[0];
+        for(int i=0; i<n; i++){
+             if(i==0){
+                if(arr[i] != arr[i+1]) return arr[i];
+             }
+             else if(i==n-1){
+                if(arr[i] != arr[i-1]) return arr[i];
+             }
+             else{
+                if(arr[i] != arr[i+1] && arr[i] != arr[i-1]) return arr[i];
+             }
         }
         return -1;
     }
-    public int FunctionNthRootOfMliearSearch(int i, int n){
+
+    public int singleElementInSortedArrayOptimal(int[] arr, int n){
+        if(n==1) return arr[0];
+        if(arr[0] != arr[1]) return arr[0];
+        if(arr[n-1] != arr[n-2]) return arr[n-1];
+        int low=1; int high=n-2;
+        while(low<=high){
+            int mid = (low+high)/2;
+            if(arr[mid] != arr[mid-1] && arr[mid] != arr[mid+1]) return arr[mid];
+            if((mid%2==1 && arr[mid]==arr[mid-1]) || (mid%2==0 && arr[mid]==arr[mid+1])) low= mid+1;
+            else high = mid-1;
+        }
+        return -1;
+    }
+
+    public int peakElementBrute(int[] arr){
+        return -1;
+    }
+
+    public int NthRootOfMlinearSearch(int n, int m){
+        for(int i=1; i<=m; i++){
+            if(FunctionNthRootOfMlinearSearch(i,n) == m){         //function to multiply i, n times
+                return i;
+            }
+            else if(FunctionNthRootOfMlinearSearch(i,n) > m) break;
+        }
+        return -1;
+    }
+    public int FunctionNthRootOfMlinearSearch(int i, int n){
         int result = 1;
         for(int j=1; j<=n; j++){
             result *= i;
@@ -330,7 +364,7 @@ class BinarySearch{
 
 public class BinarySearchClass {
     public static void main(String[] args){
-        int[] arr = {2,4,6,8,8,8,11,13};
+        int[] arr = {1,1,2,2,3,4,4};
         int n=arr.length;
         int[] piles = {3,6,11,7};
         int[] bloomDays = {7,7,7,7,13,11,12,7};
@@ -343,7 +377,8 @@ public class BinarySearchClass {
         // System.out.println(obj.NthRootOfMbinarySearch(3,64));
         // System.out.println(obj.kokoEatingBananasLinearSearch(piles,8));
         // System.out.println(obj.kokoEatingBananasBinarySearch(piles,8));
-        System.out.println(obj.minimumDaysToMakeMbouquetsBinarySearch(bloomDays,2,3));
-
+        // System.out.println(obj.minimumDaysToMakeMbouquetsBinarySearch(bloomDays,2,3));
+        System.out.println(obj.singleElementInSortedArrayBrute(arr,n));
+        System.out.println(obj.singleElementInSortedArrayOptimal(arr,n));
     }
 }
